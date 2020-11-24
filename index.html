@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Simple example - Editor.md examples</title>
+    <link rel="stylesheet" href="css/editormd.min.css" />
+    <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="editormd">
+        <textarea style="display:none;"></textarea>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/editormd.min.js"></script>
+    <script type="text/javascript">
+        var testEditor;
+
+        $(function () {
+            testEditor = editormd("editormd", {
+                width: "99vw",
+                height: "99vh",
+                syncScrolling: "single",
+                path: "lib/"
+            });
+        });
+    </script>
+</body>
+
+</html>
