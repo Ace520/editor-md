@@ -3,9 +3,9 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Simple example - Editor.md examples</title>
+    <title>Markdown 编辑器</title>
     <link rel="stylesheet" href="css/editormd.min.css" />
-    <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <style>
         html,
         body {
@@ -24,16 +24,64 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/editormd.min.js"></script>
     <script type="text/javascript">
-        var testEditor;
-
-        $(function () {
-            testEditor = editormd("editormd", {
-                width: "99vw",
-                height: "99vh",
-                syncScrolling: "single",
-                path: "lib/"
-            });
+        var editor = editormd("editormd", {
+            width: "100vw",
+            height: "100vh",
+            toolbarIcons: function () {
+                return ["bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
+                    "h1", "h2", "h3", "h4", "h5", "h6", "|",
+                    "list-ul", "list-ol", "hr", "|",
+                    "link", "reference-link", "image", "code", "preformatted-text", "code-block",
+                    "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
+                    "goto-line", "watch", "preview", "clear", "search", "|",
+                    "help"
+                ]
+            },
+            htmlDecode: "style,script,iframe|on*",
+            toolbarAutoFixed: false,
+            codeFold: true,
+            saveHTMLToTextarea: true,
+            searchReplace: true,
+            emoji: true,
+            taskList: true,
+            tocm: true,
+            tex: true,
+            flowChart: true,
+            sequenceDiagram: true,
+            imageUpload: true,
+            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            onload: function () {
+                window.parent.postMessage({
+                    method: "onload",
+                    content: "success"
+                }, "*");
+            },
+            onchange: function () {
+                window.parent.postMessage({
+                    method: "onchange",
+                    content: this.getValue()
+                }, "*");
+            }
         });
+        window.addEventListener('message', function (event) {
+            let data = event.data;
+            let res;
+            switch (data.method) {
+                case 'getMarkdown':
+                    res = editor.getMarkdown()
+                    break;
+                case 'getHTML':
+                    res = editor.getHTML()
+                    break;
+                case 'setMarkdown':
+                    res = editor.setMarkdown(data.content);
+                    break;
+            }
+            window.parent.postMessage({
+                method: data.method,
+                content: res
+            }, "*");
+        }, false)
     </script>
 </body>
 
