@@ -52,13 +52,13 @@
             imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
             onload: function () {
                 window.parent.postMessage({
-                    method: "onload",
+                    method: "onLoad",
                     content: "success"
                 }, "*");
             },
             onchange: function () {
                 window.parent.postMessage({
-                    method: "onchange",
+                    method: "onChange",
                     content: this.getValue()
                 }, "*");
             }
@@ -73,7 +73,7 @@
                 case 'getHTML':
                     res = editor.getHTML()
                     break;
-                case 'setMarkdown':
+                case 'setContent':
                     res = editor.setMarkdown(data.content);
                     break;
             }
